@@ -7,6 +7,7 @@ class RecognizeVideo(models.Model):
     transcript = models.TextField(blank=True, null=True, verbose_name='transcript')
     transcript_by_keywords = models.TextField(blank=True, null=True, verbose_name='transcript by keywords')
     transcript_with_timestamps = models.TextField(blank=True, null=True, verbose_name='transcript with timestamps')
+    video = models.FileField(upload_to='recognized_videos/', verbose_name='video')
     
     def __str__(self) -> str:
         return self.title

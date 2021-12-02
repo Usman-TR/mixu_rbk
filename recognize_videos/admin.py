@@ -1,3 +1,4 @@
 from django.contrib import admin
+from recognize_videos.models import RecognizeVideo
 
-# Register your models here.
+admin.site.register(RecognizeVideo)
