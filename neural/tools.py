@@ -1,6 +1,4 @@
 from vosk import Model, KaldiRecognizer, SetLogLevel
-import sys
-import os
 import wave
 import json
 import moviepy.editor as mp
