@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="logo" href="{% static 'images/logo.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <title>РБК</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href=""><img src="{% static 'images/logo.png' %}" alt=""></a>
+            </div>
+            <div class="rel-items">
+                <div class="item"><a href="">Телеканал</a></div>
+                <div class="item"><a href="">Газета</a></div>
+                <div class="item"><a href="">Тренды</a></div>
+                <div class="item"><a href="">РБК+</a></div>
+                <div class="item"><a href="">Pro</a></div>
+                <div class="item"><a href="">Сервисы</a></div>
+                <div class="item"><a href="">Инвестиции</a></div>
+                <div class="item"><a href="">Авто</a></div>
+                <div class="item"><a href="">Спорт</a></div>
+                <div class="item"><a href="">Недвижимость</a></div>
+                <div class="item"><a href="">Стиль</a></div>
+                <div class="item active"><a href="">РБК Компании</a></div>
+                <div class="item active"><a href="">ESG Конгресс</a></div>
+            </div>
+            <div class="icons">
+                <a href=""><img src="{% static 'images/icons.png' %}" alt=""></a>
+            </div>
+        </div>
+
+        <div class="subnavbar">
+            <div class="main-item">
+                {% if main %}Сервисы{% endif %}
+                {% if archive %}Архив{% endif %}
+                {% if search %}Поиск{% endif %}
+            </div>
+            <div class="items">
+                <div class="item {% if main %}active{% endif %}"><a href="{% url 'recognize_videos' %}">Сервис персонализации видеоконтента РБК</a></div>
+                <div class="item {% if search %}active{% endif %}"><a href="{% url 'search' %}">Поиск по контенту</a></div>
+                <div class="item {% if archive %}active{% endif %}"><a href="{% url 'archive' %}">Архив</a></div>
+                <div class="item"><a href="">Другие продукты РБК</a></div>
+            </div>
+
+        </div>
+        
+        <div class="content">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

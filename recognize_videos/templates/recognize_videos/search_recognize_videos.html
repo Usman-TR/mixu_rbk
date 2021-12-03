@@ -1,0 +1,38 @@
+{% extends "recognize_videos/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="content-head">
+        <div class="item">Результат поиска</div>
+    </div>
+
+    <div class="content-body">
+        {% for video in recognize_videos %}
+        <div class="card">
+            <div class="video">
+                <video width="100%" height="170" controls="controls" id="video">
+                    <source src="{% if video.video %} {{ video.video.url }} {% endif %}" type='video/mp4'>
+                </video>
+            </div>
+            <div class="info">
+                <div class="category">Спецпроект РБК</div>
+                <div class="title">На границе ходят хмуро</div>
+                <div class="description">Кризис с мигрантами: кому он выгоден, и чего хотят беженцы</div>
+                <div class="transcript">
+                    <img src="{% static 'images/transcript_icon.png' %}" alt="">
+                    <span>Стенограмма</span>
+                </div>
+                <div class="footer">
+                    <div class="date">{{ video.created_date|date:'d.m.Y' }}</div>
+                    <div class="views">
+                        <img src="{% static 'images/views.png' %}" alt="">
+                        <span>245</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
