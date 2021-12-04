@@ -3,36 +3,76 @@
 
 {% block content %}
 
-    <div class="content-head">
-        <div class="item">Архив</div>
-    </div>
-
-    <div class="content-body">
-        {% for video in archive_recognize_videos  %}
-        <div class="card">
-            <div class="video">
-                <video width="100%" height="170" controls="controls" id="video">
-                    <source src="{% if video.video %} {{ video.video.url }} {% endif %}" type='video/mp4'>
-                </video>
-            </div>
-            <div class="info">
-                <div class="category">Спецпроект РБК</div>
-                <div class="title">На границе ходят хмуро</div>
-                <div class="description">Кризис с мигрантами: кому он выгоден, и чего хотят беженцы</div>
-                <div class="transcript">
-                    <img src="{% static 'images/transcript_icon.png' %}" alt="">
-                    <span>Стенограмма</span>
+    <div class="inner-archive">
+        <div class="content-head">
+            <div class="item">Фильтр</div>
+            <div class="item item-filter">За все время</div>
+        </div>
+    
+        <div class="content-body">
+            {% for video in archive_recognize_videos  %}
+            <div class="card">
+                <div class="video">
+                    <video width="100%" height="170" controls="controls" id="video">
+                        <source src="{% if video.video %} {{ video.video.url }} {% endif %}" type='video/mp4'>
+                    </video>
                 </div>
-                <div class="footer">
-                    <div class="date">{{ video.created_date|date:'d.m.Y' }}</div>
-                    <div class="views">
-                        <img src="{% static 'images/views.png' %}" alt="">
-                        <span>245</span>
+                <div class="info">
+                    <div class="category">Спецпроект РБК</div>
+                    <div class="title">На границе ходят хмуро</div>
+                    <div class="description">Кризис с мигрантами: кому он выгоден, и чего хотят беженцы</div>
+                    <div id="{{ video.pk }}" class="transcript">
+                        <img id="{{ video.pk }}" src="{% static 'images/transcript_icon.png' %}" alt="">
+                        <span id="{{ video.pk }}">Стенограмма</span>
+                    </div>
+                    <div class="footer">
+                        <div class="date">{{ video.created_date|date:'d.m.Y' }}</div>
+                        <div class="views">
+                            <img src="{% static 'images/views.png' %}" alt="">
+                            <span>245</span>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
+
+    <div class="modal fade" id="modal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="header">Видео</div>
+            <div class="video">
+                <video width="100%" height="250" controls="controls" id="video">
+                    <source src="" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+                </video>
+            </div>
+            <div class="info">
+                <div class="title">На границе ходят хмуро</div>
+            </div>
+            <div class="subheader">
+                <div class="header">Стенограмма</div>
+                <div class="download"><img src="{% static 'images/download.png' %}" alt=""></div>
+            </div>
+            <div class="transcript"></div>
+        </div>
+        </div>
+    </div>
+
+    {{ archive_recognize_videos_dict|json_script:"recognize_videos" }}
+
+    <script>
+        const recognizeVideos = JSON.parse(document.getElementById('recognize_videos').textContent); 
+
+        document.querySelectorAll('.content-body .transcript').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const modal = new bootstrap.Modal(document.querySelector('#modal'))
+                document.querySelector('#modal .transcript').innerHTML = recognizeVideos[e.target.id]['transcript']
+                document.querySelector('#modal video').setAttribute('src', recognizeVideos[e.target.id]['video'])
+                modal.show()
+            })
+        })
+        
+    </script>
 
 {% endblock %}
