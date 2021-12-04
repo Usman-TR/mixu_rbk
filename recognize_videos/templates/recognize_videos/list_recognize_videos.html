@@ -65,19 +65,23 @@
     </div>
 
 
-    <div class="modal fade" id="transcript" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="transcriptLabel" aria-hidden="true">
+    <div class="modal fade" id="modal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="transcriptLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="header">Видео</div>
+            <div class="video">
+                <video width="100%" height="250" controls="controls" id="video">
+                    <source src="" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+                </video>
             </div>
-            <div class="modal-body">
+            <div class="info">
+                <div class="title">На границе ходят хмуро</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
+            <div class="subheader">
+                <div class="header">Стенограмма</div>
+                <div class="download"><img src="{% static 'images/download.png' %}" alt=""></div>
             </div>
+            <div class="transcript"></div>
         </div>
         </div>
     </div>
@@ -86,10 +90,11 @@
     <script>
         const recognizeVideos = JSON.parse(document.getElementById('recognize_videos').textContent); 
 
-        document.querySelectorAll('.transcript').forEach(el => {
+        document.querySelectorAll('.content-body .transcript').forEach(el => {
             el.addEventListener('click', (e) => {
-                const modal = new bootstrap.Modal(document.querySelector('#transcript'))
-                document.querySelector('#transcript .modal-body').innerHTML = recognizeVideos[e.target.id]
+                const modal = new bootstrap.Modal(document.querySelector('#modal'))
+                document.querySelector('#modal .transcript').innerHTML = recognizeVideos[e.target.id]['transcript']
+                document.querySelector('#modal video').setAttribute('src', recognizeVideos[e.target.id]['video'])
                 modal.show()
             })
         })

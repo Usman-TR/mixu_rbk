@@ -8,7 +8,12 @@ class RecognizeVideosListView(View):
     def get(self, request):
         context = {
             'recognize_videos': RecognizeVideo.objects.all()[:3],
-            'recognize_videos_dict': {video.pk: video.transcript for video in RecognizeVideo.objects.all()[:3]},
+            'recognize_videos_dict': {
+                video.pk: {
+                    'transcript': video.transcript,
+                    'transcript_with_timestamps': video.transcript_with_timestamps,
+                    'video': video.video.url} for video in RecognizeVideo.objects.all()[:3]
+                },
             'main': True,
         }
         return render(request, 'recognize_videos/list_recognize_videos.html', context=context)
@@ -18,6 +23,12 @@ class RecognizeVideosArchiveView(View):
     def get(self, request):
         context = {
             'archive_recognize_videos': RecognizeVideo.objects.all(),
+            'archive_recognize_videos_dict': {
+                video.pk: {
+                    'transcript': video.transcript,
+                    'transcript_with_timestamps': video.transcript_with_timestamps,
+                    'video': video.video.url} for video in RecognizeVideo.objects.all()
+                },
             'archive': True,
         }
         return render(request, 'recognize_videos/archive_recognize_videos.html', context=context)
@@ -26,7 +37,7 @@ class RecognizeVideosArchiveView(View):
 class RecognizeVideosSearchView(View):
     def get(self, request):
         search = request.GET.get('search')
-
+        print(search)
         if search:
             search = search.strip()
             result = RecognizeVideo.objects.filter(transcript__icontains=search)
