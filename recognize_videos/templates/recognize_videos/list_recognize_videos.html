@@ -1,0 +1,99 @@
+{% extends "recognize_videos/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="left-side">
+        <div class="content-head">
+            <div class="item">облако тегов</div>
+            <div class="item">Все</div>
+        </div>
+        <div class="tags">
+            <img src="{% static 'images/tags.png' %}" alt="">
+        </div>
+        <div class="content-head">
+            <div class="item">популярные слова</div>
+            <div class="item">Все</div>
+        </div>
+        <div class="words">
+            <img src="{% static 'images/words.png' %}" alt="">
+        </div>
+    </div>
+
+    <div class="inner">
+        <div class="content-head">
+            <div class="item">Топ видео</div>
+            <div class="item">Все</div>
+        </div>
+
+        <div class="content-body">
+            {% for video in recognize_videos %}
+            <div class="card">
+                <div class="video">
+                    <video width="100%" height="170" controls="controls" id="video">
+                        <source src="{% if video.video %} {{ video.video.url }} {% endif %}" type='video/mp4'>
+                    </video>
+                </div>
+                <div class="info">
+                    <div class="category">Спецпроект РБК</div>
+                    <div class="title">На границе ходят хмуро</div>
+                    <div class="description">Кризис с мигрантами: кому он выгоден, и чего хотят беженцы</div>
+                    <div id="{{ video.pk }}" class="transcript">
+                        <img id="{{ video.pk }}" src="{% static 'images/transcript_icon.png' %}" alt="">
+                        <span id="{{ video.pk }}">Стенограмма</span>
+                    </div>
+                    <div class="footer">
+                        <div class="date">{{ video.created_date|date:'d.m.Y' }}</div>
+                        <div class="views">
+                            <img src="{% static 'images/views.png' %}" alt="">
+                            <span>245</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="right-side">
+        <div class="content-head">
+            <div class="item">загрузка видео</div>
+            <div class="item">Все</div>
+        </div>
+        <div class="upload"><span>Перетащите файл в окно или <span>выберите с компьютера</span></span></div>
+        <div class="info">Добавьте видеофайл формата <strong>MPG, MP4, AVI или MOV</strong> чтобы сервис мог его обработать и вывести стенограмму</div>
+    </div>
+
+
+    <div class="modal fade" id="transcript" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="transcriptLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="transcriptLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    {{ recognize_videos_dict|json_script:"recognize_videos" }}
+
+    <script>
+        const recognizeVideos = JSON.parse(document.getElementById('recognize_videos').textContent); 
+
+        document.querySelectorAll('.transcript').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const modal = new bootstrap.Modal(document.querySelector('#transcript'))
+                document.querySelector('#transcript .modal-body').innerHTML = recognizeVideos[e.target.id]
+                modal.show()
+            })
+        })
+        
+    </script>
+
+{% endblock %}
