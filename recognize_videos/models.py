@@ -11,4 +11,4 @@ class RecognizeVideo(models.Model):
         ordering = ['-created_date', ] 
     
     def __str__(self) -> str:
-        return f'Recognize Video [{self.pk}]'
+        return f'Recognize Video [{self.video}]'

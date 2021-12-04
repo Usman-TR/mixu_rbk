@@ -1,7 +1,7 @@
 from django.urls import path
-from api.views import RecognizedVideos, recognize_video
+from api.views import VideosList, VideoRecognize
 
 urlpatterns = [
-    path('recognized_videos/', RecognizedVideos.as_view(), name='recognized_videos'),
-    path('recognize_video/', recognize_video, name='recognize_video'),
+    path('videos_list/', VideosList.as_view(), name='videos_list'),
+    path('video_recognize/', VideoRecognize.as_view(), name='video_recognize'),
 ]

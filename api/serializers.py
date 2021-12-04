@@ -1,7 +1,14 @@
 from rest_framework import serializers
 from recognize_videos.models import RecognizeVideo
-
-class RecognizeVideoSerializer(serializers.ModelSerializer):
+#from neural.tools import create_audio
+class VideosListSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecognizeVideo
         fields = ('id', 'created_date', 'transcript', 'transcript_with_timestamps')
+
+
+class VideoRecognizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecognizeVideo
+        fields = ('video', )
+
