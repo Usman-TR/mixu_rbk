@@ -48,7 +48,7 @@ def transcribe(path_to_filename):
 
     output = []
     for word in timestamps_ru:
-        if word['conf'] < 0.5:
+        if word['conf'] < 0.9:
             en_word = find_better(timestamps_en, word['start'], word['conf'])
             if en_word:
                 output.append(en_word)
@@ -56,6 +56,8 @@ def transcribe(path_to_filename):
                 output.append(word)
         else:
             output.append(word)
+    output = get_text_from_timestamps(output)
+
     return output
 
 def find_better(timestamps, time, conf):
@@ -63,3 +65,9 @@ def find_better(timestamps, time, conf):
         if float(el['start']) >= float(time) and el['conf'] > conf:
             return el
     return False
+
+def get_text_from_timestamps(timestamps):
+    output = ''
+    for part in timestamps:
+        output += ' ' + part['word']
+    return output
