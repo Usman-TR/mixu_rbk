@@ -6,7 +6,7 @@ import librosa
 import soundfile as sf
 
 
-path_to_model = "./neural/model"
+path_to_model = ".\model"
 model = Model(path_to_model)
 
 def transcribe(path_to_filename):
@@ -49,3 +49,10 @@ def create_audio(mp4_file):
     video_to_audio(mp4_file)
     convert_khz(str(mp4_file) + ".wav")
     return str(mp4_file) + ".wav"
+
+
+audio = create_audio('test.mp4')
+text = transcribe(audio)
+
+with open('test.json', 'w', encoding='utf-8') as f:
+    f.write(json.dumps(text, indent=4, ascii=False))
