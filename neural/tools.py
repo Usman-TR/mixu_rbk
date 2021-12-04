@@ -27,6 +27,7 @@ def transcribe(path_to_filename):
             break
         if rec.AcceptWaveform(data):
             data_json = json.loads(str(rec.Result()))
+            print(data_json.get('text'))
             output.append(data_json.get('text'))
             if data_json.get('result'):
                 output_with_time.extend(data_json.get('result'))
@@ -49,3 +50,4 @@ def create_audio(mp4_file):
     video_to_audio(mp4_file)
     convert_khz(str(mp4_file) + ".wav")
     return str(mp4_file) + ".wav"
+
